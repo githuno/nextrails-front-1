@@ -15,7 +15,7 @@ type Props = {
 
 export async function getStaticProps() {
   // docker network inspect ネットワーク名 で表示されるIPAM > config > Gateway で書き換える
-  const res = await fetch("http://172.21.0.1:3002/api/v1/posts");
+  const res = await fetch("http://10.0.0.1:3002/api/v1/posts");
   const posts = await res.json();
   
   return {

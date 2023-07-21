@@ -16,8 +16,10 @@ type Props = {
 export async function getStaticProps() {
   // docker network inspect <ネットワーク名> 
   // で表示されるIPAM > config > Gateway で書き換える
-  // const res = await fetch(`http://${process.env.ngate}:${process.env.hostp}/api/v1/posts`); // どっちでもいけるOK？
-  const res = await fetch(`http://172.25.0.1:${process.env.hostp}/api/v1/posts`); // どっちでもいけるOK？
+  const res = await fetch(`http://backend:3000/api/v1/posts`);
+    // ◯ `http://${process.env.ngate}:${process.env.hostp}/api/v1/posts`
+    // ◯ `http://172.25.0.1:${process.env.hostp}/api/v1/posts`
+  
   // 10.0.0.1 と 172.25.0.1 は、異なるプライベートIPアドレスの範囲に属しています。
   // どちらを使用するかは、ネットワーク構成によって異なります。
   // 一般的に、10.0.0.1 は、クラスAのプライベートIPアドレス範囲であり、
@@ -43,6 +45,9 @@ export default function Home({ posts }: Props) {
   const handleDelete = async (postId: string) => {
     try{
       await axios.delete(`http://localhost:${process.env.hostp}/api/v1/posts/${postId}`)
+      // ✘ `http://backend:3000/api/v1/posts/${postId}` # ERR_NAME_NOT_RESOLVED
+      // ✘ `http://10.0.0.1:3002/api/v1/posts/${postId}` # ERR_CONNECTION_TIMED_OUT
+      
       router.reload();
     }catch(err){
       alert("削除に失敗しました")

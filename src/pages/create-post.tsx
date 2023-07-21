@@ -18,7 +18,11 @@ const CreatePost = () => {
         // https://goat-inc.co.jp/blog/1663/
         // <yarn add axios>
         try {
-            await axios.post("http://localhost:3002/api/v1/posts",{
+            await axios.post(`http://localhost:${process.env.hostp}/api/v1/posts`,{
+                // ✘ `http://backend:3000/api/v1/posts` # ERR_NAME_NOT_RESOLVED
+                // ✘ `http://10.0.0.1:3002/api/v1/posts` # ERR_CONNECTION_TIMED_OUT
+                // ◯ `http://localhost:${process.env.hostp}/api/v1/posts`
+      
                 title: title,
                 content: content,
             });

@@ -11,7 +11,12 @@ type Props = {
 export async function getServerSideProps(context: any){
     const id = context.params.id;
 
-    const res = await fetch(`http://172.25.0.1:${process.env.hostp}/api/v1/posts/${id}`);
+    const res = await fetch(`http://backend:3000/api/v1/posts/${id}`);
+    // ◯ `http://172.25.0.1:${process.env.hostp}/api/v1/posts`
+    // ◯ `http://backend:3000/api/v1/posts`
+    // ◯ `http://${process.env.ngate}:${process.env.hostp}/api/v1/posts`
+    // ✘ `http://localhost:${process.env.hostp}/api/v1/posts`
+    
     const post = await res.json();
 
     return {
@@ -37,6 +42,11 @@ const EditPost = ( { post }: Props ) => {
         // <yarn add axios>
         try {
             await axios.put(`http://localhost:${process.env.hostp}/api/v1/posts/${post.id}`,{
+                // ✘ `http://172.25.0.1:${process.env.hostp}/api/v1/posts`         # ERR_CONNECTION_TIMED_OUT
+                // ✘ `http://backend:3000/api/v1/posts`                               # ERR_NAME_NOT_RESOLVED
+                // ✘ `http://${process.env.ngate}:${process.env.hostp}/api/v1/posts` # ERR_CONNECTION_TIMED_OUT
+                // ◯ `http://localhost:${process.env.hostp}/api/v1/posts`
+                
                 title: title,
                 content: content,
             });

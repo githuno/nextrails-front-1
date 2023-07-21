@@ -11,7 +11,7 @@ type Props = {
 export async function getServerSideProps(context: any){
     const id = context.params.id;
 
-    const res = await fetch(`http://172.25.0.1:3002/api/v1/posts/${id}`);
+    const res = await fetch(`http://172.25.0.1:${process.env.hostp}/api/v1/posts/${id}`);
     const post = await res.json();
 
     return {
@@ -36,7 +36,7 @@ const EditPost = ( { post }: Props ) => {
         // https://goat-inc.co.jp/blog/1663/
         // <yarn add axios>
         try {
-            await axios.put(`http://localhost:3002/api/v1/posts/${post.id}`,{
+            await axios.put(`http://localhost:${process.env.hostp}/api/v1/posts/${post.id}`,{
                 title: title,
                 content: content,
             });

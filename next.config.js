@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 
 // 環境変数を取得
-const ngate = process.env.NGATE;
-const port2 = process.env.PORT2 || "3002:3000";
+const ngate = process.env.NGATE; // "10.0.0.1"
+const port2 = process.env.PORT2 || "3002:3000"; // "3002:3000"
 // PORT2（ホスト:コンテナ）からホスト側の番号を取り出す
 const hostp = port2.split(":")[0];
 

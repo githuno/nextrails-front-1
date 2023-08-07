@@ -44,7 +44,8 @@ export default function Home({ posts }: Props) {
 
   const handleDelete = async (postId: string) => {
     try{
-      await axios.delete(`http://localhost:${process.env.hostp}/api/v1/posts/${postId}`)
+      // next.config.jsで環境変数を定義
+      await axios.delete(`${process.env.backendpoint}/api/v1/posts/${postId}`)
       // ✘ `http://backend:3000/api/v1/posts/${postId}` # ERR_NAME_NOT_RESOLVED
       // ✘ `http://10.0.0.1:3002/api/v1/posts/${postId}` # ERR_CONNECTION_TIMED_OUT
       

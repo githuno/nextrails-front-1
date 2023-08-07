@@ -41,7 +41,7 @@ const EditPost = ( { post }: Props ) => {
         // https://goat-inc.co.jp/blog/1663/
         // <yarn add axios>
         try {
-            await axios.put(`http://localhost:${process.env.hostp}/api/v1/posts/${post.id}`,{
+            await axios.put(`${process.env.backendpoint}/api/v1/posts/${post.id}`,{
                 // ✘ `http://172.25.0.1:${process.env.hostp}/api/v1/posts`         # ERR_CONNECTION_TIMED_OUT
                 // ✘ `http://backend:3000/api/v1/posts`                               # ERR_NAME_NOT_RESOLVED
                 // ✘ `http://${process.env.ngate}:${process.env.hostp}/api/v1/posts` # ERR_CONNECTION_TIMED_OUT

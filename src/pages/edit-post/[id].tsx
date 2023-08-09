@@ -11,12 +11,7 @@ type Props = {
 export async function getServerSideProps(context: any){
     const id = context.params.id;
 
-    const res = await fetch(`http://backend:3000/api/v1/posts/${id}`);
-    // ◯ `http://172.25.0.1:${process.env.hostp}/api/v1/posts`
-    // ◯ `http://backend:3000/api/v1/posts`
-    // ◯ `http://${process.env.ngate}:${process.env.hostp}/api/v1/posts`
-    // ✘ `http://localhost:${process.env.hostp}/api/v1/posts`
-    
+    const res = await fetch(`${process.env.internal_ep}/api/v1/posts/${id}`);
     const post = await res.json();
 
     return {
@@ -35,18 +30,8 @@ const EditPost = ( { post }: Props ) => {
         e.preventDefault();
         console.log(title, content); // debug
 
-        // APIを叩く（fetch関数の代わりにaxiosライブラリを使ってみる）
-        // https://circleci.com/ja/blog/making-http-requests-with-axios/
-        // https://qiita.com/ksh-fthr/items/2daaaf3a15c4c11956e9
-        // https://goat-inc.co.jp/blog/1663/
-        // <yarn add axios>
         try {
-            await axios.put(`${process.env.backendpoint}/api/v1/posts/${post.id}`,{
-                // ✘ `http://172.25.0.1:${process.env.hostp}/api/v1/posts`         # ERR_CONNECTION_TIMED_OUT
-                // ✘ `http://backend:3000/api/v1/posts`                               # ERR_NAME_NOT_RESOLVED
-                // ✘ `http://${process.env.ngate}:${process.env.hostp}/api/v1/posts` # ERR_CONNECTION_TIMED_OUT
-                // ◯ `http://localhost:${process.env.hostp}/api/v1/posts`
-                
+            await axios.put(`${process.env.external_ep}/api/v1/posts/${post.id}`,{                
                 title: title,
                 content: content,
             });

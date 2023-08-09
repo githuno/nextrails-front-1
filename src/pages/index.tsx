@@ -14,21 +14,7 @@ type Props = {
 }
 
 export async function getStaticProps() {
-  // docker network inspect <ネットワーク名> 
-  // で表示されるIPAM > config > Gateway で書き換える
-  const res = await fetch(`http://backend:3000/api/v1/posts`);
-    // ◯ `http://${process.env.ngate}:${process.env.hostp}/api/v1/posts`
-    // ◯ `http://172.25.0.1:${process.env.hostp}/api/v1/posts`
-  
-  // 10.0.0.1 と 172.25.0.1 は、異なるプライベートIPアドレスの範囲に属しています。
-  // どちらを使用するかは、ネットワーク構成によって異なります。
-  // 一般的に、10.0.0.1 は、クラスAのプライベートIPアドレス範囲であり、
-  // 小規模なネットワークに適しています。一方、172.16.0.0 から 172.31.255.255 までの範囲は、
-  // クラスBのプライベートIPアドレス範囲であり、中規模のネットワークに適しています。
-  // どちらを使用するかは、ネットワーク構成によって異なります。
-  // ただし、どちらを使用しても、同じネットワーク内にある他のデバイスと通信することができます。
-  // 選択するIPアドレスは、ネットワーク管理者に相談することをお勧めします。
-
+  const res = await fetch(`${process.env.internal_ep}/api/v1/posts`);
   const posts = await res.json();
   
   return {
@@ -45,10 +31,7 @@ export default function Home({ posts }: Props) {
   const handleDelete = async (postId: string) => {
     try{
       // next.config.jsで環境変数を定義
-      await axios.delete(`${process.env.backendpoint}/api/v1/posts/${postId}`)
-      // ✘ `http://backend:3000/api/v1/posts/${postId}` # ERR_NAME_NOT_RESOLVED
-      // ✘ `http://10.0.0.1:3002/api/v1/posts/${postId}` # ERR_CONNECTION_TIMED_OUT
-      
+      await axios.delete(`${process.env.external_ep}/api/v1/posts/${postId}`)
       router.reload();
     }catch(err){
       alert("削除に失敗しました")

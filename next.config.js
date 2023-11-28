@@ -25,10 +25,10 @@ const nextConfig = {
         // ◯ http://backend:3000/api/v1/posts ※「"バックエンドコンテナ名":"コンテナ側のポート番号" 」
         // ✘ http://localhost:${process.env.hostp}/api/v1/posts
         // ✘ https
-        
+
         // `docker network inspect <ネットワーク名>` でプライベートIPは確認可能。
         // クラス違いで複数のプライベートIPを持つ。ngateはdocker-composeで指定したため確実なプライベートIP。
-  
+
         external_ep: process.env.CODESPACES ? codespace_url : local_url,
         // ◯ https://XXX-3002.app.github.dev/api/v1/posts ※CODESPACEのアドレス
         // ✘ https://4.194.120.87:3002/api/v1/posts ※グローバルIPアドレス
@@ -37,3 +37,4 @@ const nextConfig = {
 }
 
 module.exports = nextConfig
+
